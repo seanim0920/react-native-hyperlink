@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/obipawan/hyperlink#readme",
   "dependencies": {
+    "link-preview-js": "^2.1.6",
     "linkify-it": "^2.2.0",
     "mdurl": "^1.0.0"
   },

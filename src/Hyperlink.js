@@ -11,11 +11,14 @@ import {
 	Platform
 } from 'react-native'
 import mdurl from 'mdurl'
+import RNUrlPreview from './RNUrlPreview';
 
 const linkify = require('linkify-it')()
 
 const textPropTypes = Text.propTypes || {}
 const { OS } = Platform
+
+let firstUrl = null;
 
 class Hyperlink extends Component {
   constructor(props) {
@@ -35,6 +38,11 @@ class Hyperlink extends Component {
         { !this.props.onPress && !this.props.onLongPress && !this.props.linkStyle
           ? this.props.children
           : this.parse(this).props.children }
+        {
+          firstUrl ?
+          <RNUrlPreview text={this.state.firstUrl} />
+          : null
+        }
       </View>
     )
   }
@@ -66,6 +74,7 @@ class Hyperlink extends Component {
 
     try {
       this.state.linkifyIt.match(component.props.children).forEach(({ index, lastIndex, text, url }) => {
+        firstUrl = url;
         let nonLinkedText = component.props.children.substring(_lastIndex, index)
         nonLinkedText && elements.push(nonLinkedText)
         _lastIndex = lastIndex
