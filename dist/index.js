@@ -13,6 +13,8 @@ var _reactNative = require("react-native");
 
 var _mdurl = _interopRequireDefault(require("mdurl"));
 
+var _RNUrlPreview = _interopRequireDefault(require("./RNUrlPreview"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -49,6 +51,7 @@ var linkify = require('linkify-it')();
 
 var textPropTypes = _reactNative.Text.propTypes || {};
 var OS = _reactNative.Platform.OS;
+var firstUrl = null;
 
 var Hyperlink =
 /*#__PURE__*/
@@ -78,6 +81,7 @@ function (_Component) {
               lastIndex = _ref.lastIndex,
               text = _ref.text,
               url = _ref.url;
+          firstUrl = url;
           var nonLinkedText = component.props.children.substring(_lastIndex, index);
           nonLinkedText && elements.push(nonLinkedText);
           _lastIndex = lastIndex;
@@ -150,7 +154,9 @@ function (_Component) {
       delete viewProps.linkStyle;
       return _react["default"].createElement(_reactNative.View, _extends({}, viewProps, {
         style: this.props.style
-      }), !this.props.onPress && !this.props.onLongPress && !this.props.linkStyle ? this.props.children : this.parse(this).props.children);
+      }), !this.props.onPress && !this.props.onLongPress && !this.props.linkStyle ? this.props.children : this.parse(this).props.children, firstUrl ? _react["default"].createElement(_RNUrlPreview["default"], {
+        text: this.state.firstUrl
+      }) : null);
     }
   }, {
     key: "isTextNested",
