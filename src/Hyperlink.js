@@ -18,12 +18,10 @@ const linkify = require('linkify-it')()
 const textPropTypes = Text.propTypes || {}
 const { OS } = Platform
 
-let firstUrl = null;
-
 class Hyperlink extends Component {
   constructor(props) {
     super(props)
-    this.state = { linkifyIt: props.linkify || linkify }
+    this.state = { linkifyIt: props.linkify || linkify, firstUrl: null }
   }
 
   render() {
@@ -39,7 +37,7 @@ class Hyperlink extends Component {
           ? this.props.children
           : this.parse(this).props.children }
         {
-          firstUrl ?
+          this.state.firstUrl ?
           <RNUrlPreview text={this.state.firstUrl} />
           : null
         }
@@ -74,7 +72,7 @@ class Hyperlink extends Component {
 
     try {
       this.state.linkifyIt.match(component.props.children).forEach(({ index, lastIndex, text, url }) => {
-        firstUrl = url;
+        this.setState({firstUrl: url})
         let nonLinkedText = component.props.children.substring(_lastIndex, index)
         nonLinkedText && elements.push(nonLinkedText)
         _lastIndex = lastIndex
